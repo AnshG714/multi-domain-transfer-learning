@@ -83,6 +83,36 @@ val_df.to_csv(os.path.join(DATA_PATH_PREFIX, 'cars/val_csv.csv'), index = False,
 # print("Testing set size for cars", test_df.shape)
 # print("Validation set size for cars", val_df.shape)
 
+# Prepare dogs dataset
+
+def prepare_dogs_df(mat_contents):
+    files = []
+    for el in list(mat_contents["file_list"]):
+        files.append(np.array(list(el[0])))
+    files = np.array(files).flatten()
+
+    labels = []
+    for el in list(mat_contents["labels"]):
+        labels.append(np.array(list(el)))
+    labels = np.array(labels).flatten()
+
+    df = pd.DataFrame(columns = ["img_name", "label"])
+    df["img_name"] = files
+    df["label"] = labels
+
+    return df
+
+test_list_mat = scipy.io.loadmat(os.path.join(DATA_PATH_PREFIX, 'dogs/test_list.mat'))
+train_list_mat = scipy.io.loadmat(os.path.join(DATA_PATH_PREFIX, 'dogs/train_list.mat'))
+test_df = prepare_dogs_df(test_list_mat)
+train_df = prepare_dogs_df(train_list_mat)
+
+# split the test_df to test and val sets
+test_df, val_df = train_test_split(test_df, test_size = 0.5, random_state = 42)
+
+train_df.to_csv(os.path.join(DATA_PATH_PREFIX, 'dogs/train_csv.csv'), index = False, header=True)
+test_df.to_csv(os.path.join(DATA_PATH_PREFIX, 'dogs/test_csv.csv'), index = False, header=True)
+val_df.to_csv(os.path.join(DATA_PATH_PREFIX, 'dogs/val_csv.csv'), index = False, header=True)
 
 
 

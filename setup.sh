@@ -18,11 +18,13 @@ done
 DATASET_DIR='./datasets'
 FLOWERS_DIR="$DATASET_DIR/flowers"
 CARS_DIR="$DATASET_DIR/cars"
+DOGS_DIR="$DATASET_DIR/dogs"
 
 if [ ! -d "$DATASET_DIR" ]; then
   mkdir $DATASET_DIR
   mkdir $FLOWERS_DIR
   mkdir $CARS_DIR
+  mkdir $DOGS_DIR
 fi
 
 # ------------- set up the flowers dataset --------------
@@ -48,6 +50,13 @@ tar -xzf "$CARS_DIR/cars_train.tgz" -C $CARS_DIR
 
 wget http://ai.stanford.edu/~jkrause/car196/cars_test_annos_withlabels.mat -P "$CARS_DIR/devkit"
 rm "$CARS_DIR/devkit/cars_test_annos.mat"
+
+# -------------- set up the dogs dataset ------------------
+wget http://vision.stanford.edu/aditya86/ImageNetDogs/images.tar -P $DOGS_DIR
+wget http://vision.stanford.edu/aditya86/ImageNetDogs/lists.tar -P $DOGS_DIR
+
+tar -xzf "$DOGS_DIR/lists.tar" -C $DOGS_DIR
+tar -xzf "$DOGS_DIR/images.tar" -C $DOGS_DIR
 
 # ---------- Run utility script to set up annotations for pytorch ----------
 python ./utils/create-dataset.py
