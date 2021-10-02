@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from PIL import Image
 import torch
+import numpy as np
 
 class DomainDataset(Dataset):
     def __init__(self, image_dir, annotations_file_path, transform = None):
@@ -15,9 +16,8 @@ class DomainDataset(Dataset):
     
     def __getitem__(self, index):
         img_id = self.annotations.iloc[index, 0]
-        img = Image.open(os.path.join(self.image_dir, img_id)).convert("RGB")
+        image = np.array(Image.open(os.path.join(self.image_dir, img_id)).convert("RGB"))
         y_label = torch.tensor(float(self.annotations.iloc[index, 1]))
         if self.transform is not None:
-            img = self.transform(img)
-            
-        return img, y_label
+            image = self.transform(image = image)['image']
+        return image, y_label
