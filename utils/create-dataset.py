@@ -32,7 +32,7 @@ def prepare_flowers_df(split):
     
     df = pd.DataFrame(columns=["img_name", "label"])
     df["img_name"] = np.array([image_name(n) for n in split])
-    df["label"] = np.array([labels[n - 1] for n in split])
+    df["label"] = np.array([labels[n - 1] for n in split]) - 1
     return df
 
 train_df = prepare_flowers_df(train_split)
@@ -68,7 +68,7 @@ def prepare_cars_df(split):
     """
     df = pd.DataFrame(columns=["img_name", "label"])
     df["img_name"] = split[:, -1]
-    df["label"] = split[:, -2]
+    df["label"] = split[:, -2] - 1
     return df
 
 train_df = prepare_cars_df(train_split)
@@ -98,7 +98,7 @@ def prepare_dogs_df(mat_contents):
 
     df = pd.DataFrame(columns = ["img_name", "label"])
     df["img_name"] = files
-    df["label"] = labels
+    df["label"] = labels - 1
 
     return df
 

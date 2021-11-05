@@ -6,7 +6,7 @@ from datasets import DomainDataset
 from utils.checkpoints import load_checkpoint, save_checkpoint
 from utils.evaluation_helpers import check_accuracy
 import transforms
-from model import Net
+from model import Net, Net2
 
 BATCH_SIZE = 64
 NUM_WORKERS = 0
@@ -41,9 +41,6 @@ def train_fn(loader, model, optimizer, loss_fn, device):
     targets = targets.to(device=device)
 
     scores = model(data)
-    print(targets)
-    print(targets.shape)
-    print(scores.shape)
     loss = loss_fn(scores, targets.long())
 
     optimizer.zero_grad()
@@ -51,10 +48,11 @@ def train_fn(loader, model, optimizer, loss_fn, device):
     optimizer.step()
 
 loss_fn = nn.CrossEntropyLoss()
-model = Net(net_version="b0", num_classes=196).to("cpu")
+# model = Net(num_classes=196).to("cpu")
+model = Net2().to("cpu")
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[20, 40], gamma=0.1)
-n_epochs = 100
+n_epochs = 2
 
 for _ in range(n_epochs):
   train_fn(cars_train, model, optimizer, loss_fn, "cpu")

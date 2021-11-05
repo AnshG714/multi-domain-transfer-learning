@@ -55,8 +55,8 @@ rm "$CARS_DIR/devkit/cars_test_annos.mat"
 wget http://vision.stanford.edu/aditya86/ImageNetDogs/images.tar -P $DOGS_DIR
 wget http://vision.stanford.edu/aditya86/ImageNetDogs/lists.tar -P $DOGS_DIR
 
-tar -xzf "$DOGS_DIR/lists.tar" -C $DOGS_DIR
-tar -xzf "$DOGS_DIR/images.tar" -C $DOGS_DIR
+tar -xvf "$DOGS_DIR/lists.tar" -C $DOGS_DIR
+tar -xvf "$DOGS_DIR/images.tar" -C $DOGS_DIR
 
 # ---------- Run utility script to set up annotations for pytorch ----------
 python ./utils/create-dataset.py

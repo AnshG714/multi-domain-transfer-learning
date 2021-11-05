@@ -1,6 +1,6 @@
 import torch
 
-def check_accuracy(loader, model, device="cuda"):
+def check_accuracy(loader, model, device="cpu"):
     num_correct = 0
     num_samples = 0
     model.eval()
@@ -11,6 +11,7 @@ def check_accuracy(loader, model, device="cuda"):
             y = y.to(device=device)
 
             scores = model(x)
+            print(torch.nn.Softmax(scores))
             predictions = (scores>0.5).float()
             num_correct += (predictions == y).sum()
             num_samples += predictions.shape[0]
